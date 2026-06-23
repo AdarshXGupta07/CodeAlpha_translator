@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Translator</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div class="app">
+    <header>
+      <div class="logo">
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="28" height="28" rx="8" fill="#2563eb"/>
+          <text x="5" y="20" font-size="15" fill="white" font-family="sans-serif" font-weight="700">Tr</text>
+        </svg>
+        <span>Translator</span>
+      </div>
+      <button class="dark-toggle" id="dark-toggle" title="Toggle dark mode" aria-label="Toggle dark mode">
+        <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+    </header>
+
+    <main>
+      <div class="lang-bar">
+        <select id="src-lang" aria-label="Source language">
+          <option value="auto">Detect language</option>
+          <option value="en">English</option>
+          <option value="es">Spanish</option>
+          <option value="fr">French</option>
+          <option value="de">German</option>
+          <option value="it">Italian</option>
+          <option value="pt">Portuguese</option>
+          <option value="hi">Hindi</option>
+          <option value="ja">Japanese</option>
+          <option value="zh">Chinese (Simplified)</option>
+          <option value="ar">Arabic</option>
+          <option value="ko">Korean</option>
+          <option value="ru">Russian</option>
+          <option value="nl">Dutch</option>
+          <option value="tr">Turkish</option>
+        </select>
+
+        <button class="swap-btn" id="swap-btn" title="Swap languages" aria-label="Swap languages">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M7 16V4m0 0L3 8m4-4l4 4"/><path d="M17 8v12m0 0l4-4m-4 4l-4-4"/>
+          </svg>
+        </button>
+
+        <select id="tgt-lang" aria-label="Target language">
+          <option value="es">Spanish</option>
+          <option value="en">English</option>
+          <option value="fr">French</option>
+          <option value="de">German</option>
+          <option value="it">Italian</option>
+          <option value="pt">Portuguese</option>
+          <option value="hi">Hindi</option>
+          <option value="ja">Japanese</option>
+          <option value="zh">Chinese (Simplified)</option>
+          <option value="ar">Arabic</option>
+          <option value="ko">Korean</option>
+          <option value="ru">Russian</option>
+          <option value="nl">Dutch</option>
+          <option value="tr">Turkish</option>
+        </select>
+      </div>
+
+      <div class="panels">
+        <div class="panel">
+          <div class="panel-top">
+            <span class="panel-label">Source text</span>
+            <span class="char-count" id="char-count">0 / 5000</span>
+          </div>
+          <textarea
+            id="src-text"
+            placeholder="Enter text to translate…"
+            maxlength="5000"
+            aria-label="Text to translate"
+            spellcheck="true"
+          ></textarea>
+          <div class="panel-bottom">
+            <button class="icon-btn" id="clear-btn" title="Clear text">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+              Clear
+            </button>
+            <button class="icon-btn" id="tts-src-btn" title="Listen to source">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+              Listen
+            </button>
+          </div>
+        </div>
+
+        <div class="panel result-panel">
+          <div class="panel-top">
+            <span class="panel-label">Translation</span>
+            <span class="lang-tag" id="lang-tag"></span>
+          </div>
+          <div id="result" class="result-area" aria-live="polite" aria-label="Translation result">
+            <span class="placeholder">Translation will appear here…</span>
+          </div>
+          <div class="panel-bottom">
+            <button class="icon-btn" id="copy-btn" title="Copy translation">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              <span id="copy-label">Copy</span>
+            </button>
+            <button class="icon-btn" id="tts-tgt-btn" title="Listen to translation">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+              Listen
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <button class="translate-btn" id="translate-btn" disabled>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        <span id="btn-label">Translate</span>
+      </button>
+
+      <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+      <!-- HISTORY SECTION -->
+      <div class="history-section" id="history-section" style="display:none">
+        <div class="history-header">
+          <span class="history-title">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            Recent translations
+          </span>
+          <button class="icon-btn" id="clear-history-btn">Clear all</button>
+        </div>
+        <div class="history-list" id="history-list"></div>
+      </div>
+    </main>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
